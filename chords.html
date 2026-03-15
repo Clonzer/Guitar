@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FretForge - Chords</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-950 text-white">
+<nav class="bg-black/90 backdrop-blur sticky top-0 z-50 border-b border-amber-400/30">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+    <h1 class="text-4xl font-black text-amber-400">FRET FORGE</h1>
+    <div class="flex gap-8 text-lg">
+      <a href="index.html">Home</a>
+      <a href="chords.html" class="text-amber-400">Chords</a>
+      <a href="tuner.html">Tuner</a>
+      <a href="strum-hero.html">Strum Hero</a>
+      <a href="songs.html">Songs</a>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-6xl mx-auto px-6 py-12">
+  <h2 class="text-5xl font-bold mb-10 text-center">Interactive Chord Trainer</h2>
+  
+  <div class="flex flex-col lg:flex-row gap-12">
+    <div class="flex-1">
+      <div class="flex flex-wrap gap-4 mb-8">
+        <select id="instrument" class="bg-zinc-800 px-6 py-4 rounded-2xl text-lg">
+          <option value="guitar">Guitar (6 strings)</option>
+          <option value="ukulele">Ukulele (4 strings)</option>
+        </select>
+        <select id="chordSelect" class="bg-zinc-800 px-6 py-4 rounded-2xl text-lg"></select>
+      </div>
+      
+      <canvas id="fretboard" class="w-full bg-zinc-900 shadow-2xl glow" width="700" height="380"></canvas>
+      
+      <div class="flex gap-6 mt-8">
+        <button id="strumBtn" class="flex-1 py-6 bg-gradient-to-r from-amber-500 to-orange-600 text-black font-bold text-2xl rounded-3xl hover:scale-105 transition">STRUM CHORD 🔥</button>
+        <button onclick="markLearned()" class="flex-1 py-6 bg-green-600 font-bold text-2xl rounded-3xl hover:scale-105 transition">MARK AS LEARNED ✓</button>
+      </div>
+    </div>
+    
+    <div class="flex-1">
+      <h3 class="text-3xl font-bold mb-6">Learned Chords</h3>
+      <div id="chordList" class="grid grid-cols-3 sm:grid-cols-4 gap-3"></div>
+    </div>
+  </div>
+</div>
+
+<script src="js/chords.js"></script>
+</body>
+</html>
