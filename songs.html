@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FretForge - Songs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-zinc-950 text-white">
+<nav class="bg-black/90 backdrop-blur sticky top-0 z-50 border-b border-amber-400/30">
+  <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
+    <h1 class="text-4xl font-black text-amber-400">FRET FORGE</h1>
+    <div class="flex gap-8 text-lg">
+      <a href="index.html">Home</a>
+      <a href="chords.html">Chords</a>
+      <a href="tuner.html">Tuner</a>
+      <a href="strum-hero.html">Strum Hero</a>
+      <a href="songs.html" class="text-amber-400">Songs</a>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-4xl mx-auto px-6 py-12">
+  <h2 class="text-5xl font-bold mb-10 text-center">Free Songs Library</h2>
+  <div id="songList" class="grid md:grid-cols-2 gap-8"></div>
+</div>
+
+<script>
+  const songs = [
+    {title: "Ode to Joy", artist: "Beethoven", chords: "C G Am F C G C"},
+    {title: "Amazing Grace", artist: "Traditional", chords: "G C D G C G D G"},
+    {title: "Jingle Bells", artist: "Traditional", chords: "C F G C F G C"},
+    {title: "Mary Had a Little Lamb", artist: "Traditional", chords: "C G F G C"},
+    {title: "When the Saints Go Marching In", artist: "Traditional", chords: "G C D G"},
+    {title: "This Land Is Your Land", artist: "Woody Guthrie", chords: "G C D G"},
+    {title: "Frère Jacques", artist: "Traditional", chords: "C G C G Am Em G C"}
+  ];
+
+  const list = document.getElementById("songList");
+  songs.forEach(song => {
+    const card = document.createElement("div");
+    card.className = "bg-zinc-900 rounded-3xl p-8 glow card-hover";
+    card.innerHTML = `
+      <h3 class="text-3xl font-bold mb-3">${song.title}</h3>
+      <p class="text-zinc-400 mb-4">${song.artist}</p>
+      <p class="text-sm text-amber-300">Chords: ${song.chords}</p>
+    `;
+    list.appendChild(card);
+  });
+</script>
+</body>
+</html>
