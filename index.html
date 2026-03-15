@@ -5,221 +5,28 @@
 <title>FretForge - Guitar & Ukulele Trainer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-  body { font-family: 'Inter', sans-serif; }
-  .gradient-bg { animation: gradientShift 12s ease infinite; }
-  @keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-  .glow { box-shadow: 0 0 40px -10px #f59e0b; }
-  .card-hover:hover { transform: translateY(-10px) scale(1.03); }
-  canvas { border-radius: 20px; }
-  .falling-note { position: absolute; transition: top 0.05s linear; }
-</style>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-zinc-950 text-white">
-
 <nav class="bg-black/90 backdrop-blur sticky top-0 z-50 border-b border-amber-400/30">
-  <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-    <h1 onclick="switchTab('home')" class="text-4xl font-black text-amber-400 cursor-pointer">FRET FORGE</h1>
-    <div class="flex gap-8 font-medium">
-      <button onclick="switchTab('home')" class="hover:text-amber-400">Home</button>
-      <button onclick="switchTab('chords')" class="hover:text-amber-400">Chords</button>
-      <button onclick="switchTab('tuner')" class="hover:text-amber-400">Tuner</button>
-      <button onclick="switchTab('strumhero')" class="hover:text-amber-400">Strum Hero</button>
-      <button onclick="switchTab('songs')" class="hover:text-amber-400">Songs</button>
+  <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between">
+    <h1 class="text-4xl font-black text-amber-400">FRET FORGE</h1>
+    <div class="flex gap-8 text-lg">
+      <a href="index.html" class="hover:text-amber-400">Home</a>
+      <a href="chords.html" class="hover:text-amber-400">Chords</a>
+      <a href="tuner.html" class="hover:text-amber-400">Tuner</a>
+      <a href="strum-hero.html" class="hover:text-amber-400">Strum Hero</a>
+      <a href="songs.html" class="hover:text-amber-400">Songs</a>
     </div>
   </div>
 </nav>
 
-<!-- HOME -->
-<div id="home" class="tab active gradient-bg h-screen flex items-center justify-center text-center">
+<div class="gradient-bg h-screen flex items-center justify-center text-center">
   <div>
-    <h2 class="text-7xl font-black mb-4">FretForge</h2>
-    <p class="text-3xl text-amber-200">Master guitar & ukulele with real mic feedback</p>
+    <h1 class="text-7xl font-black mb-6">FretForge</h1>
+    <p class="text-3xl text-amber-200 mb-10">The most advanced free guitar & ukulele trainer</p>
+    <a href="chords.html" class="inline-block bg-amber-400 text-black font-bold text-2xl px-16 py-7 rounded-3xl hover:scale-110 transition">Start Learning Now</a>
   </div>
 </div>
-
-<!-- TUNER (NEW MIC CONTROLS) -->
-<div id="tuner" class="tab max-w-2xl mx-auto px-6 py-12">
-  <h2 class="text-5xl font-bold mb-8 text-center">Advanced Tuner</h2>
-  
-  <div class="bg-zinc-900 rounded-3xl p-8 glow">
-    <select id="micSelect" class="w-full bg-zinc-800 p-4 rounded-2xl mb-6 text-lg" onchange="changeMic()">
-      <option value="">Select Microphone...</option>
-    </select>
-
-    <div class="flex gap-4 mb-6">
-      <div class="flex-1">
-        <label class="text-sm text-zinc-400">Sensitivity</label>
-        <input type="range" id="sensitivity" min="1" max="100" value="50" class="w-full accent-amber-400">
-      </div>
-      <div class="flex-1">
-        <label class="text-sm text-zinc-400">Noise Reduction</label>
-        <input type="range" id="noisereduction" min="1" max="100" value="30" class="w-full accent-amber-400">
-      </div>
-    </div>
-
-    <button onclick="toggleTuner()" id="tunerBtn" class="w-full py-6 bg-amber-400 text-black font-bold text-2xl rounded-3xl mb-6">START TUNER</button>
-
-    <!-- Mic Level -->
-    <div class="h-6 bg-zinc-800 rounded-full overflow-hidden mb-4">
-      <div id="micLevelBar" class="h-full bg-gradient-to-r from-green-400 to-amber-400 w-0 transition-all"></div>
-    </div>
-    <div class="flex justify-between text-xs"><span>Quiet</span><span>Loud</span></div>
-
-    <label class="flex items-center gap-3 mt-6">
-      <input type="checkbox" id="liveListen" onchange="toggleLiveListen()"> Live Listening (hear your note back)
-    </label>
-  </div>
-</div>
-
-<!-- STRUM HERO -->
-<div id="strumhero" class="tab max-w-4xl mx-auto px-6 py-12">
-  <h2 class="text-5xl font-bold text-center mb-6">Strum Hero</h2>
-  <div class="flex justify-center gap-8 mb-8">
-    <div>Speed: <input type="range" id="heroSpeed" min="1" max="10" value="5" class="accent-amber-400"></div>
-    <button onclick="startStrumHero()" class="px-10 py-4 bg-green-500 rounded-3xl font-bold">START GAME</button>
-  </div>
-  <canvas id="heroCanvas" width="800" height="500" class="mx-auto bg-zinc-900 block"></canvas>
-  <div class="text-center mt-6 text-2xl font-bold" id="heroScore">Score: 0</div>
-</div>
-
-<!-- SONGS (new royalty-free ones) -->
-<div id="songs" class="tab max-w-4xl mx-auto px-6 py-12">
-  <h2 class="text-5xl font-bold mb-8">Free Songs Library</h2>
-  <!-- populated by JS with public domain songs -->
-</div>
-
-<script>
-// ================== FRET FORGE FULL CODE ==================
-// (All previous chord + audio code kept + NEW features below)
-
-let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-let currentMicStream = null;
-let selectedDeviceId = null;
-let analyser, micLevelInterval;
-let liveOsc = null;
-
-// ============== MIC SELECTOR & CONTROLS ==============
-async function loadMics() {
-  const devices = await navigator.mediaDevices.enumerateDevices();
-  const select = document.getElementById("micSelect");
-  select.innerHTML = '<option value="">Default Microphone</option>';
-  devices.filter(d => d.kind === "audioinput").forEach(d => {
-    const opt = document.createElement("option");
-    opt.value = d.deviceId;
-    opt.textContent = d.label || `Mic ${devices.indexOf(d)}`;
-    select.appendChild(opt);
-  });
-}
-
-function changeMic() {
-  selectedDeviceId = document.getElementById("micSelect").value;
-  if (currentMicStream) toggleTuner(); // restart with new mic
-}
-
-async function startMic(constraints = {}) {
-  if (currentMicStream) currentMicStream.getTracks().forEach(t => t.stop());
-  currentMicStream = await navigator.mediaDevices.getUserMedia({ audio: constraints });
-  analyser = audioCtx.createAnalyser();
-  const source = audioCtx.createMediaStreamSource(currentMicStream);
-  source.connect(analyser);
-  analyser.fftSize = 2048;
-  return currentMicStream;
-}
-
-// Live mic level
-function startMicLevel() {
-  clearInterval(micLevelInterval);
-  micLevelInterval = setInterval(() => {
-    if (!analyser) return;
-    const buffer = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(buffer);
-    let sum = 0; buffer.forEach(v => sum += v);
-    const avg = sum / buffer.length / 255;
-    document.getElementById("micLevelBar").style.width = (avg * 100) + "%";
-  }, 30);
-}
-
-// ============== STRUM HERO (Guitar Hero + Piano Tiles style) ==============
-let heroNotes = [];
-let heroScore = 0;
-let heroRunning = false;
-let heroCanvas, heroCtx, heroSpeed = 5;
-
-function startStrumHero() {
-  heroRunning = true;
-  heroScore = 0;
-  document.getElementById("heroScore").textContent = "Score: 0";
-  heroCanvas = document.getElementById("heroCanvas");
-  heroCtx = heroCanvas.getContext("2d");
-  heroNotes = [];
-  // Spawn notes (using real songs)
-  const songSequence = ["C","G","Am","F","C","G"]; // example from Ode to Joy
-  let y = 0;
-  setInterval(() => {
-    if (!heroRunning) return;
-    heroNotes.push({chord: songSequence[Math.floor(Math.random()*songSequence.length)], y: y});
-    y = -50;
-  }, 800 / heroSpeed);
-
-  requestAnimationFrame(heroLoop);
-}
-
-function heroLoop() {
-  if (!heroRunning) return;
-  heroCtx.clearRect(0,0,heroCanvas.width,heroCanvas.height);
-  
-  heroNotes.forEach((note, i) => {
-    note.y += heroSpeed * 2;
-    heroCtx.fillStyle = "#f59e0b";
-    heroCtx.fillRect(200, note.y, 400, 40);
-    heroCtx.fillStyle = "black";
-    heroCtx.font = "bold 30px Inter";
-    heroCtx.fillText(note.chord, 340, note.y + 30);
-    
-    // Hit zone
-    if (note.y > 400 && note.y < 460) {
-      // user can strum here
-    }
-    if (note.y > 520) {
-      heroNotes.splice(i,1);
-      endStrumHero(); // miss = stop like Piano Tiles
-    }
-  });
-  requestAnimationFrame(heroLoop);
-}
-
-document.addEventListener("keydown", e => {
-  if (e.code === "Space" && heroRunning) {
-    // simulate correct strum
-    heroScore += 10;
-    document.getElementById("heroScore").textContent = "Score: " + heroScore;
-  }
-});
-
-function endStrumHero() {
-  heroRunning = false;
-  alert("Game Over! Final Score: " + heroScore);
-}
-
-// ============== NEW ROYALTY-FREE SONGS ==============
-const songs = [
-  {title:"Ode to Joy", chords:["C","G","Am","F","C","G","C"], free:true},
-  {title:"Amazing Grace", chords:["G","C","D","G","C","G","D","G"], free:true},
-  {title:"Jingle Bells", chords:["C","F","G","C","F","G","C"], free:true},
-  {title:"Mary Had a Little Lamb", chords:["C","G","F","G","C"], free:true},
-  {title:"When the Saints", chords:["G","C","D","G"], free:true},
-  {title:"This Land Is Your Land", chords:["G","C","D","G"], free:true},
-  {title:"Frère Jacques", chords:["C","G","C","G","Am","Em","G","C"], free:true}
-];
-
-// (rest of your original chords, audio, canvas, quiz code remains — now fully functional)
-
-tailwind.config = { content: ["*"] };
-switchTab('home');
-loadMics(); // auto load mic list after first interaction
-</script>
 </body>
 </html>
